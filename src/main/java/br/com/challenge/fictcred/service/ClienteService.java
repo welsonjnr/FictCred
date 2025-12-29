@@ -33,7 +33,6 @@ public class ClienteService {
             cliente.setNome(clienteAtualizado.getNome());
             cliente.setCpf(clienteAtualizado.getCpf());
             cliente.setRendaMensal(clienteAtualizado.getRendaMensal());
-            cliente.setDataCadastro(clienteAtualizado.getDataCadastro());
             return clienteRepository.save(cliente);
         } else {
             throw new RuntimeException("Cliente não encontrado com id: " + id);

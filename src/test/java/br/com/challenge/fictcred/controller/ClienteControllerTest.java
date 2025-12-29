@@ -64,7 +64,6 @@ class ClienteControllerTest {
         clienteUpdateDTO.setNome("João Silva Atualizado");
         clienteUpdateDTO.setCpf("12345678900");
         clienteUpdateDTO.setRendaMensal(new BigDecimal("6000.00"));
-        clienteUpdateDTO.setDataCadastro(new Date());
 
         clienteListDTO = new ClienteListDTO(1L, "João Silva", "12345678900", new BigDecimal("5000.00"), new Date());
     }

@@ -1,0 +1,258 @@
+{
+  "info": {
+    "name": "FictCred API Collection",
+    "description": "Collection para testar a API FictCred localmente",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "clienteId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "propostaId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Cliente",
+      "item": [
+        {
+          "name": "Criar Cliente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"João Silva\",\n  \"cpf\": \"12345678901\",\n  \"rendaMensal\": 5000.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/fictcred/v1/api/cliente",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "fictcred",
+                "v1",
+                "api",
+                "cliente"
+              ]
+            },
+            "description": "Cria um novo cliente no sistema"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('clienteId', response.id);",
+                  "    console.log('Cliente criado com ID:', response.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar Cliente por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/fictcred/v1/api/cliente/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "fictcred",
+                "v1",
+                "api",
+                "cliente",
+                "{{clienteId}}"
+              ]
+            },
+            "description": "Busca um cliente específico pelo ID"
+          }
+        },
+        {
+          "name": "Listar Todos os Clientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/fictcred/v1/api/cliente",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "fictcred",
+                "v1",
+                "api",
+                "cliente"
+              ]
+            },
+            "description": "Lista todos os clientes cadastrados"
+          }
+        },
+        {
+          "name": "Atualizar Cliente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"João Silva Atualizado\",\n  \"cpf\": \"12345678901\",\n  \"rendaMensal\": 6000.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/fictcred/v1/api/cliente/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "fictcred",
+                "v1",
+                "api",
+                "cliente",
+                "{{clienteId}}"
+              ]
+            },
+            "description": "Atualiza os dados de um cliente existente"
+          }
+        },
+        {
+          "name": "Remover Cliente",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/fictcred/v1/api/cliente/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "fictcred",
+                "v1",
+                "api",
+                "cliente",
+                "{{clienteId}}"
+              ]
+            },
+            "description": "Remove um cliente do sistema"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Proposta de Crédito",
+      "item": [
+        {
+          "name": "Criar Proposta de Crédito",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"valorSolicitado\": 10000.00,\n  \"numeroParcelas\": 12\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/fictcred/v1/api/proposta-cliente/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "fictcred",
+                "v1",
+                "api",
+                "proposta-cliente",
+                "{{clienteId}}"
+              ]
+            },
+            "description": "Cria uma nova proposta de crédito para um cliente"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('propostaId', response.id);",
+                  "    console.log('Proposta criada com ID:', response.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar Proposta por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/fictcred/v1/api/proposta-cliente/{{propostaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "fictcred",
+                "v1",
+                "api",
+                "proposta-cliente",
+                "{{propostaId}}"
+              ]
+            },
+            "description": "Busca uma proposta específica pelo ID"
+          }
+        },
+        {
+          "name": "Listar Propostas por Cliente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/fictcred/v1/api/proposta-cliente/cliente/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "fictcred",
+                "v1",
+                "api",
+                "proposta-cliente",
+                "cliente",
+                "{{clienteId}}"
+              ]
+            },
+            "description": "Lista todas as propostas de um cliente específico"
+          }
+        }
+      ]
+    }
+  ]
+}

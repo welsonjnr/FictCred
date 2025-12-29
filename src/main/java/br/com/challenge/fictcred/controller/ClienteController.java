@@ -121,7 +121,6 @@ public class ClienteController {
         cliente.setNome(dto.getNome());
         cliente.setCpf(dto.getCpf());
         cliente.setRendaMensal(dto.getRendaMensal());
-        cliente.setDataCadastro(dto.getDataCadastro());
         return cliente;
     }
 
