@@ -15,6 +15,9 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
 
     public Cliente salvar(Cliente cliente) {
+        if (clienteRepository.existsByCpf(cliente.getCpf())) {
+            throw new RuntimeException("Cliente com CPF " + cliente.getCpf() + " já está cadastrado no sistema");
+        }
         return clienteRepository.save(cliente);
     }
 
