@@ -55,7 +55,7 @@ public class ClienteController {
             @Parameter(description = "ID do cliente a ser atualizado", required = true)
             @PathVariable Long id,
             @Parameter(description = "Dados atualizados do cliente", required = true)
-            @RequestBody ClienteUpdateDTO clienteDTO) {
+            @Valid @RequestBody ClienteUpdateDTO clienteDTO) {
         try {
             Cliente cliente = convertToEntity(clienteDTO);
             Cliente clienteAtualizado = clienteService.atualizar(id, cliente);
