@@ -121,7 +121,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nome\": \"João Silva Atualizado\",\n  \"cpf\": \"12345678901\",\n  \"rendaMensal\": 6000.00\n}"
+              "raw": "{\n  \"nome\": \"João Silva Atualizado\",\n  \"cpf\": \"30446563030\",\n  \"rendaMensal\": 6000.00\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/fictcred/v1/api/cliente/{{clienteId}}",
