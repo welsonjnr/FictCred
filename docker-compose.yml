@@ -1,0 +1,37 @@
+services:
+
+  db:
+    image: postgres:13
+    container_name: fictcred-db
+    environment:
+      POSTGRES_DB: DBFictCred
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: senha_forte
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d DBFictCred"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: fictcred-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: DBFictCred
+      DB_USERNAME: postgres
+      DB_PASSWORD: senha_forte
+
+volumes:
+  postgres_data:
