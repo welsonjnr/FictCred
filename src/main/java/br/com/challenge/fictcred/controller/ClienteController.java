@@ -32,16 +32,24 @@ public class ClienteController {
                description = "Cria um novo cliente no sistema com os dados fornecidos.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Cliente criado com sucesso"),
-        @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos")
+        @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+        @ApiResponse(responseCode = "409", description = "Cliente com CPF já cadastrado")
     })
     @PostMapping
     public ResponseEntity<ClienteListDTO> criarCliente(
             @Parameter(description = "Dados do cliente a ser criado", required = true)
             @Valid @RequestBody ClienteInsertDTO clienteDTO) {
-        Cliente cliente = convertToEntity(clienteDTO);
-        Cliente clienteSalvo = clienteService.salvar(cliente);
-        ClienteListDTO response = convertToListDTO(clienteSalvo);
-        return ResponseEntity.ok(response);
+        try {
+            Cliente cliente = convertToEntity(clienteDTO);
+            Cliente clienteSalvo = clienteService.salvar(cliente);
+            ClienteListDTO response = convertToListDTO(clienteSalvo);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("já está cadastrado")) {
+                return ResponseEntity.status(409).build();
+            }
+            throw e;
+        }
     }
 
     @Operation(summary = "Atualizar cliente",
