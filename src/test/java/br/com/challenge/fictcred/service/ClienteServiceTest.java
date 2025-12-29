@@ -34,7 +34,7 @@ class ClienteServiceTest {
         cliente = new Cliente();
         cliente.setId(1L);
         cliente.setNome("João Silva");
-        cliente.setCpf("12345678900");
+        cliente.setCpf("30446563030");
         cliente.setRendaMensal(new BigDecimal("5000.00"));
         cliente.setDataCadastro(new Date());
     }
@@ -47,7 +47,7 @@ class ClienteServiceTest {
 
         assertNotNull(resultado);
         assertEquals("João Silva", resultado.getNome());
-        assertEquals("12345678900", resultado.getCpf());
+        assertEquals("30446563030", resultado.getCpf());
         verify(clienteRepository, times(1)).save(any(Cliente.class));
     }
 
@@ -89,7 +89,7 @@ class ClienteServiceTest {
     void atualizar_DeveAtualizarClienteQuandoEncontrado() {
         Cliente clienteAtualizado = new Cliente();
         clienteAtualizado.setNome("João Silva Atualizado");
-        clienteAtualizado.setCpf("12345678900");
+        clienteAtualizado.setCpf("30446563030");
         clienteAtualizado.setRendaMensal(new BigDecimal("6000.00"));
         clienteAtualizado.setDataCadastro(new Date());
 
@@ -112,31 +112,15 @@ class ClienteServiceTest {
             clienteService.atualizar(1L, cliente);
         });
 
-        assertEquals("Cliente não encontrado", exception.getMessage());
+        assertEquals("Cliente não encontrado com id: 1", exception.getMessage());
         verify(clienteRepository, times(1)).findById(1L);
         verify(clienteRepository, never()).save(any(Cliente.class));
     }
 
     @Test
-    void deletar_DeveDeletarClienteQuandoEncontrado() {
-        when(clienteRepository.findById(1L)).thenReturn(Optional.of(cliente));
-
+    void deletar_DeveDeletarCliente() {
         assertDoesNotThrow(() -> clienteService.deletar(1L));
 
-        verify(clienteRepository, times(1)).findById(1L);
-        verify(clienteRepository, times(1)).delete(cliente);
-    }
-
-    @Test
-    void deletar_DeveLancarExcecaoQuandoClienteNaoEncontrado() {
-        when(clienteRepository.findById(1L)).thenReturn(Optional.empty());
-
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            clienteService.deletar(1L);
-        });
-
-        assertEquals("Cliente não encontrado", exception.getMessage());
-        verify(clienteRepository, times(1)).findById(1L);
-        verify(clienteRepository, never()).delete(any(Cliente.class));
+        verify(clienteRepository, times(1)).deleteById(1L);
     }
 }

@@ -51,21 +51,21 @@ class ClienteControllerTest {
         cliente = new Cliente();
         cliente.setId(1L);
         cliente.setNome("João Silva");
-        cliente.setCpf("12345678900");
+        cliente.setCpf("12345678909");
         cliente.setRendaMensal(new BigDecimal("5000.00"));
         cliente.setDataCadastro(new Date());
 
         clienteInsertDTO = new ClienteInsertDTO();
         clienteInsertDTO.setNome("João Silva");
-        clienteInsertDTO.setCpf("12345678900");
+        clienteInsertDTO.setCpf("12345678909");
         clienteInsertDTO.setRendaMensal(new BigDecimal("5000.00"));
 
         clienteUpdateDTO = new ClienteUpdateDTO();
         clienteUpdateDTO.setNome("João Silva Atualizado");
-        clienteUpdateDTO.setCpf("12345678900");
+        clienteUpdateDTO.setCpf("12345678909");
         clienteUpdateDTO.setRendaMensal(new BigDecimal("6000.00"));
 
-        clienteListDTO = new ClienteListDTO(1L, "João Silva", "12345678900", new BigDecimal("5000.00"), new Date());
+        clienteListDTO = new ClienteListDTO(1L, "João Silva", "12345678909", new BigDecimal("5000.00"), new Date());
     }
 
     @Test
