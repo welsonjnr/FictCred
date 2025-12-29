@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +37,7 @@ public class PropostaCreditoController {
             @Parameter(description = "ID do cliente para o qual a proposta será criada", required = true)
             @PathVariable Long clienteId,
             @Parameter(description = "Dados da proposta a ser criada", required = true)
-            @RequestBody PropostaCreditoInsertDTO propostaDTO) {
+            @Valid @RequestBody PropostaCreditoInsertDTO propostaDTO) {
         try {
             PropostaCredito proposta = convertToEntity(propostaDTO);
             PropostaCredito propostaCriada = propostaCreditoService.criarProposta(clienteId, proposta);

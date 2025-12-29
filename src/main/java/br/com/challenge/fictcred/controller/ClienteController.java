@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +37,7 @@ public class ClienteController {
     @PostMapping
     public ResponseEntity<ClienteListDTO> criarCliente(
             @Parameter(description = "Dados do cliente a ser criado", required = true)
-            @RequestBody ClienteInsertDTO clienteDTO) {
+            @Valid @RequestBody ClienteInsertDTO clienteDTO) {
         Cliente cliente = convertToEntity(clienteDTO);
         Cliente clienteSalvo = clienteService.salvar(cliente);
         ClienteListDTO response = convertToListDTO(clienteSalvo);

@@ -1,36 +1,33 @@
 package br.com.challenge.fictcred.validation;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import br.com.challenge.fictcred.exceptions.ErrorObject;
-import br.com.challenge.fictcred.exceptions.ErrorReponse;
 
 @RestControllerAdvice
-public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+public class RestExceptionHandler {
 
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        List<ErrorObject> errors = getErros(ex);
-        ErrorReponse errorReponse = getErrorResponse(ex, status, errors);
-        return new ResponseEntity<>(errorReponse, status);
-    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationErrors(
+            MethodArgumentNotValidException ex) {
 
-    private ErrorReponse getErrorResponse(MethodArgumentNotValidException ex, HttpStatus status, List<ErrorObject> errors){
-        return new ErrorReponse("The request has empty fields", status.value(),
-                status.getReasonPhrase(), ex.getBindingResult().getObjectName(), errors);
-    }
+        Map<String, String> errors = new HashMap<>();
 
-    private List<ErrorObject> getErros(MethodArgumentNotValidException ex){
-        return ex.getBindingResult().getFieldErrors().stream()
-                .map(error -> new ErrorObject(error.getDefaultMessage(), error.getField(), error.getRejectedValue()))
-                .collect(Collectors.toList());
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage())
+        );
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("status", HttpStatus.BAD_REQUEST.value());
+        body.put("errors", errors);
+        body.put("timestamp", LocalDateTime.now());
+
+        return ResponseEntity.badRequest().body(body);
     }
 }
